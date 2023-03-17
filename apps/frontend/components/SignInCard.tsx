@@ -11,15 +11,28 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  Center,
 } from '@chakra-ui/react';
+import type {
+  GetServerSidePropsContext,
+  InferGetServerSidePropsType,
+} from 'next';
+import { getProviders, signIn } from 'next-auth/react';
+import { getServerSession } from 'next-auth/next';
+import NextAuth from '../pages/api/auth/[...nextauth]';
+import { getServerSideProps } from '../pages/signin';
+import { FcGoogle } from 'react-icons/fc';
 
-export default function SignInCard() {
+export default function SignInCard({
+  providers,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <Flex
       minH={'100vh'}
       align={'center'}
       justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
+      bg={useColorModeValue('gray.50', 'gray.800')}
+    >
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'}>Sign in to your account</Heading>
@@ -31,9 +44,30 @@ export default function SignInCard() {
           rounded={'lg'}
           bg={useColorModeValue('white', 'gray.700')}
           boxShadow={'lg'}
-          p={8}>
+          p={8}
+        >
           <Stack spacing={4}>
-            <FormControl id="email">
+            {providers &&
+              Object.values(providers).map((provider) => (
+                <div key={provider.name}>
+                  {/* <button onClick={() => signIn(provider.id)}>
+                    Sign in with {provider.name}
+                  </button> */}
+                  {provider.id == 'google' && (
+                    <Button
+                      w={'full'}
+                      variant={'outline'}
+                      leftIcon={<FcGoogle />}
+                      onClick={() => signIn(provider.id)}
+                    >
+                      <Center>
+                        <Text>Sign in with Google</Text>
+                      </Center>
+                    </Button>
+                  )}
+                </div>
+              ))}
+            {/* <FormControl id="email">
               <FormLabel>Email address</FormLabel>
               <Input type="email" />
             </FormControl>
@@ -57,7 +91,7 @@ export default function SignInCard() {
                 }}>
                 Sign in
               </Button>
-            </Stack>
+            </Stack> */}
           </Stack>
         </Box>
       </Stack>

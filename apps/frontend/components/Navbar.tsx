@@ -21,9 +21,28 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from '@chakra-ui/icons';
+import { useRouter } from 'next/router';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import { FC, MouseEvent, MouseEventHandler, useCallback } from 'react';
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
+  const { data: session } = useSession();
+  const router = useRouter();
+
+  const handleLogout = useCallback(
+    async (event) => {
+      event.preventDefault();
+
+      const data = await signOut({ redirect: false, callbackUrl: '/' });
+      router.push(data.url);
+    },
+    [router]
+  );
+
+  const handleSignin = useCallback(() => {
+    signIn();
+  }, []);
 
   return (
     <Box>
@@ -74,7 +93,7 @@ export default function Navbar() {
           direction={'row'}
           spacing={6}
         >
-          <Button
+          {/* <Button
             as={'a'}
             fontSize={'sm'}
             fontWeight={400}
@@ -82,8 +101,46 @@ export default function Navbar() {
             href="/signin"
           >
             Sign In
-          </Button>
-          <Button
+          </Button> */}
+          {!session ? (
+            <Button onClick={handleSignin}>Signin</Button>
+          ) : (
+            <Flex>
+              {/* <a href="#" onClick={handleLogout}>
+                Logout
+              </a> */}
+              <Button
+                onClick={handleLogout}
+                as={'a'}
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize={'sm'}
+                fontWeight={600}
+                color={'white'}
+                bg={'pink.400'}
+                href="/"
+                _hover={{
+                  bg: 'pink.300',
+                }}
+              >
+                Logout
+              </Button>
+              <Button
+                as={'a'}
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize={'sm'}
+                fontWeight={600}
+                color={'white'}
+                bg={'pink.400'}
+                href="/profile"
+                _hover={{
+                  bg: 'pink.300',
+                }}
+              >
+                Profile
+              </Button>
+            </Flex>
+          )}
+          {/* <Button
             as={'a'}
             display={{ base: 'none', md: 'inline-flex' }}
             fontSize={'sm'}
@@ -96,7 +153,7 @@ export default function Navbar() {
             }}
           >
             Sign Up
-          </Button>
+          </Button> */}
         </Stack>
       </Flex>
 

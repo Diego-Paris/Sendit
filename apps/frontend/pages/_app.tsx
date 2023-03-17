@@ -1,8 +1,9 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { SessionProvider } from 'next-auth/react';
 import './styles.css';
-import Navbar from "../components/Navbar";
+import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 function CustomApp({ Component, pageProps }: AppProps) {
@@ -11,11 +12,13 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Welcome to frontend!</title>
       </Head>
-      <ChakraProvider>
-        <Navbar/>
-        <Component {...pageProps} />
-        <Footer/>
-      </ChakraProvider>
+      <SessionProvider session={pageProps.session}>
+        <ChakraProvider>
+          <Navbar />
+          <Component {...pageProps} />
+          <Footer />
+        </ChakraProvider>
+      </SessionProvider>
     </>
   );
 }
