@@ -1,27 +1,8 @@
 import React from 'react';
 import { Box, Textarea, Text, Flex, Button } from '@chakra-ui/react';
-import { Formik, Form } from 'formik';
+import CreatePostForm from './CreatePostForm';
 
-const CharacterCounter = ({ value, maxLength }) => {
-  const remaining = maxLength - value.length;
-  const color = remaining < 0 ? 'red.500' : 'gray.500';
-  return (
-    <Box mr={2} textAlign="left">
-      <Text color={color} fontSize="sm">
-        {remaining}/{maxLength}
-      </Text>
-    </Box>
-  );
-};
-
-const MyForm = () => {
-  const maxLength = 300;
-
-  const handleSubmit = (values, { resetForm }) => {
-    // handle form submission logic here
-    console.log(values);
-    resetForm();
-  };
+const ListPosts = () => {
 
   return (
     <Flex
@@ -32,35 +13,13 @@ const MyForm = () => {
       py={{ base: 6 }}
     >
       <Box bg="white" p={6} rounded="md" w={{ base: "80%", md: "70%"}} maxW={{ base: "100%", md: "600px" }}>
-        <Formik initialValues={{ text: '' }} onSubmit={handleSubmit}>
-          {({ values, handleChange }) => (
-            <Form>
-              <Textarea
-                name="text"
-                value={values.text}
-                onChange={handleChange}
-                placeholder="Enter up to 300 characters..."
-                maxLength={maxLength}
-                mb={2}
-                resize="none"
-                size="sm"
-                flex={1}
-              />
-              <Flex justifyContent="space-between" alignItems="center">
-                <CharacterCounter value={values.text} maxLength={maxLength} />
-                <Button type="submit" ml={2}>
-                  Submit
-                </Button>
-              </Flex>
-            </Form>
-          )}
-        </Formik>
+        <CreatePostForm/>
       </Box>
     </Flex>
   );
 };
 
-export default MyForm;
+export default ListPosts;
 
 // import { Formik, Field } from 'formik';
 // import {
