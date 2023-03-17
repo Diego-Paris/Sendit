@@ -14,6 +14,12 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  Menu,
+  MenuButton,
+  MenuList,
+  Avatar,
+  MenuItem,
+  MenuDivider,
 } from '@chakra-ui/react';
 import {
   HamburgerIcon,
@@ -109,51 +115,27 @@ export default function Navbar() {
               {/* <a href="#" onClick={handleLogout}>
                 Logout
               </a> */}
-              <Button
-                onClick={handleLogout}
-                as={'a'}
-                display={{ base: 'none', md: 'inline-flex' }}
-                fontSize={'sm'}
-                fontWeight={600}
-                color={'white'}
-                bg={'pink.400'}
-                href="/"
-                _hover={{
-                  bg: 'pink.300',
-                }}
-              >
-                Logout
-              </Button>
-              <Button
-                as={'a'}
-                display={{ base: 'none', md: 'inline-flex' }}
-                fontSize={'sm'}
-                fontWeight={600}
-                color={'white'}
-                bg={'pink.400'}
-                href="/profile"
-                _hover={{
-                  bg: 'pink.300',
-                }}
-              >
-                Profile
-              </Button>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded={'full'}
+                  variant={'link'}
+                  cursor={'pointer'}
+                  minW={0}
+                >
+                  <Avatar size={'sm'} src={session.user.image} />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem as="a" href="/profile">
+                    Profile
+                  </MenuItem>
+                  <MenuDivider />
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </MenuList>
+              </Menu>
+              
             </Flex>
           )}
-          {/* <Button
-            as={'a'}
-            display={{ base: 'none', md: 'inline-flex' }}
-            fontSize={'sm'}
-            fontWeight={600}
-            color={'white'}
-            bg={'pink.400'}
-            href="/signup"
-            _hover={{
-              bg: 'pink.300',
-            }}
-          >
-            Sign Up
-          </Button> */}
         </Stack>
       </Flex>
 
