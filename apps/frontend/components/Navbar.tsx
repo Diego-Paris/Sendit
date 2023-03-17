@@ -20,6 +20,9 @@ import {
   Avatar,
   MenuItem,
   MenuDivider,
+  Image,
+  LinkBox,
+  LinkOverlay,
 } from '@chakra-ui/react';
 import {
   HamburgerIcon,
@@ -30,6 +33,7 @@ import {
 import { useRouter } from 'next/router';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { FC, MouseEvent, MouseEventHandler, useCallback } from 'react';
+import Logo from '../public/logo.svg';
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
@@ -78,15 +82,25 @@ export default function Navbar() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Text
-            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-            fontFamily={'heading'}
-            color={useColorModeValue('gray.800', 'white')}
-          >
-            <Button as={'a'} href="/" variant={'link'}>
-              Logo
-            </Button>
-          </Text>
+          <LinkBox as="article">
+            <Stack
+              flex={{ base: 'none', md: 'flex' }}
+              justify={'flex-end'}
+              direction={'row'}
+              spacing={0}
+            >
+              <Image src={Logo.src} alt="sendit logo" h="1.75rem" w="2rem" mr={1}/>
+              <Text
+                textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
+                fontFamily={'heading'}
+                color={useColorModeValue('gray.800', 'white')}
+                fontSize="lg"
+                fontWeight="bold"
+              >
+                <LinkOverlay href="/">Send it.</LinkOverlay>
+              </Text>
+            </Stack>
+          </LinkBox>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             <DesktopNav />
@@ -109,7 +123,7 @@ export default function Navbar() {
             Sign In
           </Button> */}
           {!session ? (
-            <Button onClick={handleSignin}>Signin</Button>
+            <Button onClick={handleSignin}>Sign in</Button>
           ) : (
             <Flex>
               {/* <a href="#" onClick={handleLogout}>
@@ -133,7 +147,6 @@ export default function Navbar() {
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </MenuList>
               </Menu>
-              
             </Flex>
           )}
         </Stack>
