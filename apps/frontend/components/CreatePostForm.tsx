@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Textarea, Text, Flex, Button } from '@chakra-ui/react';
 import { Formik, Form } from 'formik';
+import axios from 'axios';
 
 const CharacterCounter = ({ value, maxLength }) => {
   const remaining = maxLength - value.length;
@@ -17,9 +18,20 @@ const CharacterCounter = ({ value, maxLength }) => {
 const CreatePostForm = () => {
   const maxLength = 300;
 
+  async function fetchData() {
+    try {
+      const response = await axios.get('http://localhost:3333/api');
+      const data = response.data;
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const handleSubmit = (values, { resetForm }) => {
     // handle form submission logic here
     console.log(values);
+    fetchData()
     resetForm();
   };
 

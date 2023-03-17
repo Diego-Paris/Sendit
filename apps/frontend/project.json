@@ -25,7 +25,8 @@
       "options": {
         "buildTarget": "frontend:build",
         "dev": true,
-        "port": 4200
+        "port": 4200,
+        "proxyConfig": "apps/frontend/proxy.conf.json"
       },
       "configurations": {
         "development": {
