@@ -1,6 +1,9 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
+import Navbar from "../components/Navbar";
+import Footer from '../components/Footer';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
@@ -8,9 +11,11 @@ function CustomApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Welcome to frontend!</title>
       </Head>
-      <main className="app">
+      <ChakraProvider>
+        <Navbar/>
         <Component {...pageProps} />
-      </main>
+        <Footer/>
+      </ChakraProvider>
     </>
   );
 }
